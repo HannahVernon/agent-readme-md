@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>agent-readme.md &mdash; a README for AI agents</title>
+  <meta name="description" content="A simple, open convention for a Markdown file that tells AI agents how to work in your project: purpose, commands, conventions, and guardrails.">
+  <meta property="og:title" content="agent-readme.md">
+  <meta property="og:description" content="README.md is for humans. AGENT-README.md is for the machines that now read your code.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="inner">
+      <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+      <span class="path"><b>agent-readme.md</b> &mdash; /README</span>
+      <nav>
+        <a href="/spec/">Spec</a>
+        <a href="/agent-readme.md">Example</a>
+        <a href="/examples/">Templates</a>
+        <a href="https://github.com/">GitHub</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="doc">
+      <div class="doc-head">
+        <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+        <span>agent-readme.md &mdash; Preview</span>
+      </div>
+      <div class="doc-body">
+
+        <p class="kicker"># convention &middot; draft v0.1</p>
+        <h1>AGENT-README.md</h1>
+        <p class="tagline"><code>README.md</code> is for humans. <code>AGENT-README.md</code> is for the machines that now read your code.</p>
+
+        <div class="badges">
+          <span class="badge g">status: draft</span>
+          <span class="badge">spec: v0.1</span>
+          <span class="badge y">feedback wanted</span>
+          <span class="badge">license: CC BY 4.0</span>
+        </div>
+
+        <div class="btn-row">
+          <a class="btn primary" href="/spec/">Read the draft spec &rarr;</a>
+          <a class="btn" href="/agent-readme.md">View this site's agent-readme.md</a>
+          <a class="btn" href="/examples/">Grab a template</a>
+        </div>
+
+        <h2>What is it?</h2>
+        <p>An <strong><code>AGENT-README.md</code></strong> is a single Markdown file, placed at the root of a repository (or served at a site's <code>/agent-readme.md</code>), that gives an AI agent the context it needs to act safely and correctly in your project.</p>
+        <p>Think of it as <code>robots.txt</code> for autonomous coding agents &mdash; but human-readable, richer, and written in the format agents already understand best: Markdown.</p>
+
+        <blockquote>
+          If a capable agent read only this one file, would it know how to build, test, and change your project without breaking things? That is the bar an <code>AGENT-README.md</code> aims to clear.
+        </blockquote>
+
+        <h2>Why now?</h2>
+        <p>Coding agents already read your files, run your commands, and open pull requests. Today that guidance is scattered across a dozen bespoke files &mdash; <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>.cursorrules</code>, <code>llms.txt</code>, Copilot instructions &mdash; each tool with its own name and shape.</p>
+        <p><code>AGENT-README.md</code> proposes one obvious, tool-neutral name and a light structure that any agent (or human) can follow.</p>
+
+        <h2>What goes in it</h2>
+        <div class="cards">
+          <div class="card"><h3>Purpose</h3><p>What the project is and what "done" looks like.</p></div>
+          <div class="card"><h3>Commands</h3><p>Exact build, test, lint, and run commands &mdash; copy-paste ready.</p></div>
+          <div class="card"><h3>Conventions</h3><p>Code style, structure, and patterns to follow.</p></div>
+          <div class="card"><h3>Guardrails</h3><p>Do-not-touch zones, secrets handling, destructive-action rules.</p></div>
+          <div class="card"><h3>Context</h3><p>Architecture notes and links to deeper docs.</p></div>
+          <div class="card"><h3>Contacts</h3><p>Who owns what, and where to ask.</p></div>
+        </div>
+
+        <h2>Minimal example</h2>
+        <pre><code># AGENT-README
+
+## Purpose
+A CLI that converts CSV to Parquet. "Done" = tests pass and `--help` is accurate.
+
+## Setup &amp; commands
+- Install: `npm ci`
+- Build:   `npm run build`
+- Test:    `npm test`
+- Lint:    `npm run lint`  # must pass before any commit
+
+## Conventions
+- TypeScript, strict mode. No `any`.
+- Prettier is the source of truth for formatting.
+
+## Guardrails
+- Never edit files under `vendor/` or `dist/`.
+- Never commit anything in `.env*`.
+- Ask before deleting files or rewriting git history.
+
+## Contacts
+- Owner: @maintainer &middot; Issues: /issues</code></pre>
+
+        <p>This very site ships one. Read it at <a href="/agent-readme.md"><code>/agent-readme.md</code></a> &mdash; served straight from the domain root, dogfooding the idea.</p>
+
+        <h2>How it relates to what exists</h2>
+        <table>
+          <thead><tr><th>File</th><th>Audience</th><th>Scope</th></tr></thead>
+          <tbody>
+            <tr><td><code>README.md</code></td><td>Humans</td><td>Onboarding, overview</td></tr>
+            <tr><td><code>AGENTS.md</code> / <code>CLAUDE.md</code></td><td>Specific tools</td><td>Tool-specific instructions</td></tr>
+            <tr><td><code>llms.txt</code></td><td>LLMs (web)</td><td>Content discovery for sites</td></tr>
+            <tr><td><code>AGENT-README.md</code></td><td>Any agent</td><td>How to work in this project</td></tr>
+          </tbody>
+        </table>
+        <p>The goal is not to replace these &mdash; it is to offer one obvious, portable default, and to point at the others where they fit.</p>
+
+        <h2>Get involved</h2>
+        <p>This is an early draft. The spec, the name, the structure &mdash; all open for discussion. Read the <a href="/spec/">draft specification</a>, try a <a href="/examples/">template</a>, and send feedback.</p>
+
+        <hr>
+        <footer>
+          agent-readme.md &middot; a proposed open convention &middot; draft v0.1<br>
+          Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Built as a static site.
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

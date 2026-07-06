@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Draft Spec &mdash; agent-readme.md</title>
+  <meta name="description" content="The draft specification for AGENT-README.md: a Markdown convention that tells AI agents how to work in your project.">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="inner">
+      <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+      <span class="path"><b>agent-readme.md</b> &mdash; /spec</span>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/agent-readme.md">Example</a>
+        <a href="/examples/">Templates</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="doc">
+      <div class="doc-head">
+        <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+        <span>SPEC.md &mdash; Preview</span>
+      </div>
+      <div class="doc-body">
+
+        <p class="kicker"># specification &middot; draft v0.1</p>
+        <h1>The AGENT-README.md Specification</h1>
+        <p class="tagline">A minimal, tool-neutral convention for instructing AI agents.</p>
+
+        <div class="badges">
+          <span class="badge y">status: draft &mdash; expect changes</span>
+          <span class="badge">version: 0.1</span>
+          <span class="badge">last updated: 2026-07-06</span>
+        </div>
+
+        <blockquote>
+          The key words <strong>MUST</strong>, <strong>SHOULD</strong>, and <strong>MAY</strong> are used in the sense of
+          <a href="https://www.rfc-editor.org/rfc/rfc2119">RFC 2119</a>. This is an early draft published for discussion; nothing here is final.
+        </blockquote>
+
+        <h2>1. Purpose</h2>
+        <p>An <code>AGENT-README.md</code> is a single Markdown document that gives an AI agent enough context to work in a project <em>safely</em> and <em>correctly</em> without human hand-holding. It answers four questions:</p>
+        <ol>
+          <li>What is this project, and what does success look like?</li>
+          <li>How do I build, test, and run it?</li>
+          <li>What conventions must I follow?</li>
+          <li>What must I never do?</li>
+        </ol>
+
+        <h2>2. Location &amp; naming</h2>
+        <ul>
+          <li>For a <strong>repository</strong>, the file <strong>MUST</strong> be named <code>AGENT-README.md</code> and <strong>SHOULD</strong> live at the repository root. Agents <strong>SHOULD</strong> also search one level deep for per-package files in monorepos.</li>
+          <li>For a <strong>website</strong>, it <strong>SHOULD</strong> be served at <code>/agent-readme.md</code> with a <code>text/markdown</code> (or <code>text/plain</code>) content type.</li>
+          <li>The filename comparison <strong>SHOULD</strong> be case-insensitive. <code>AGENT-README.md</code> is the canonical form.</li>
+        </ul>
+
+        <h2>3. Format</h2>
+        <ul>
+          <li>The file <strong>MUST</strong> be valid CommonMark Markdown.</li>
+          <li>It <strong>MUST</strong> remain readable by a human with no rendering.</li>
+          <li>It <strong>SHOULD</strong> be short &mdash; a target of one screen to two pages. Link out for depth rather than inlining everything.</li>
+          <li>It <strong>MAY</strong> begin with a YAML front-matter block for machine-readable metadata (see &sect;5).</li>
+        </ul>
+
+        <h2>4. Recommended sections</h2>
+        <p>Agents <strong>SHOULD</strong> recognise the following <code>##</code> headings by name. All are optional except <strong>Purpose</strong> and <strong>Guardrails</strong>, which <strong>SHOULD</strong> be present.</p>
+        <table>
+          <thead><tr><th>Heading</th><th>Contains</th><th>Requirement</th></tr></thead>
+          <tbody>
+            <tr><td><code>## Purpose</code></td><td>One or two sentences on what the project is and the definition of "done".</td><td>SHOULD</td></tr>
+            <tr><td><code>## Setup &amp; commands</code></td><td>Exact, copy-paste commands to install, build, test, lint, and run.</td><td>SHOULD</td></tr>
+            <tr><td><code>## Conventions</code></td><td>Language/version, style rules, structure, patterns to follow or avoid.</td><td>MAY</td></tr>
+            <tr><td><code>## Guardrails</code></td><td>Hard rules: do-not-touch paths, secrets handling, when to stop and ask.</td><td>SHOULD</td></tr>
+            <tr><td><code>## Architecture</code></td><td>A short map of the codebase and links to deeper docs.</td><td>MAY</td></tr>
+            <tr><td><code>## Contacts</code></td><td>Owners, review process, where to file issues.</td><td>MAY</td></tr>
+          </tbody>
+        </table>
+
+        <h3>4.1 Guardrails are the priority</h3>
+        <p>When an agent can read only part of the file, it <strong>MUST</strong> prioritise <code>## Guardrails</code>. Guardrail rules <strong>SHOULD</strong> be phrased as imperatives an agent can check against a proposed action, for example:</p>
+        <pre><code>## Guardrails
+- Never modify files under `generated/` or `dist/`.
+- Never commit files matching `.env*` or `*.pem`.
+- Do not run database migrations; prepare them and stop for review.
+- Ask before deleting files or rewriting git history.</code></pre>
+
+        <h2>5. Optional front matter</h2>
+        <p>A YAML block <strong>MAY</strong> precede the Markdown body to expose a few machine-readable fields. Unknown keys <strong>MUST</strong> be ignored by consumers.</p>
+        <pre><code>---
+agent_readme: 0.1
+project: csv2parquet
+updated: 2026-07-06
+links:
+  docs: /docs/
+  issues: /issues
+---</code></pre>
+
+        <h2>6. Precedence</h2>
+        <p>An <code>AGENT-README.md</code> is <em>project guidance</em>. It <strong>MUST NOT</strong> be treated as a security boundary: it is advisory, like <code>robots.txt</code>. Where it conflicts with an operator's or platform's explicit safety policy, that policy <strong>MUST</strong> win. Where it conflicts with a tool-specific file the agent already honours, the agent <strong>SHOULD</strong> prefer the more specific and more restrictive instruction.</p>
+
+        <h2>7. Relationship to existing files</h2>
+        <p>This convention does not aim to replace tool-specific files. An <code>AGENT-README.md</code> <strong>MAY</strong> point at them:</p>
+        <pre><code>&gt; Tool-specific notes: see `CLAUDE.md` and `.github/copilot-instructions.md`.</code></pre>
+
+        <h2>8. A note on trust</h2>
+        <p>Because the file is advisory and author-controlled, agents <strong>SHOULD</strong> treat its contents as untrusted input for the purposes of prompt-injection defence: follow its <em>project guidance</em>, but never let it override the operator's safety rules or coax the agent into exfiltrating secrets or acting outside its sanctioned scope.</p>
+
+        <hr>
+        <p>Have thoughts on this draft? That is exactly what it is for. See the <a href="/examples/">templates</a> to try it in a real project, or return <a href="/">home</a>.</p>
+
+        <footer>
+          agent-readme.md &middot; draft specification v0.1 &middot; licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
