@@ -2,8 +2,11 @@
 # per-path eol rules below on checkout.
 * text=auto
 
-# --- Windows / IIS tooling: force CRLF ---
+# --- Windows / IIS / PowerShell tooling: force CRLF ---
 *.config    text eol=crlf
+*.ps1       text eol=crlf
+*.psm1      text eol=crlf
+*.psd1      text eol=crlf
 
 # --- Web source: normalize to LF in the repo ---
 *.html      text eol=lf

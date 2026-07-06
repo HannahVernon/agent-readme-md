@@ -17,6 +17,7 @@ Path | Purpose
 `agent-readme.md` | The self-referential example, served from the site root
 `assets/style.css` | The single shared stylesheet
 `web.config` | IIS configuration (default document + `.md` served inline as UTF-8 text)
+`scripts/Deploy-Site.ps1` | Deploys the crucial site files to an IIS web root
 
 ## Local preview
 
@@ -30,7 +31,22 @@ Then open `http://localhost:8080/`.
 
 ## Deployment
 
-Hosted on IIS behind an nginx reverse proxy at `https://agent-readme.md`.  Deployment is a file copy of the repository contents to the web root.  The `web.config` maps `.md` to `text/plain; charset=utf-8` so the root `agent-readme.md` renders inline in a browser while remaining trivially fetchable by agents.
+Hosted on IIS behind an nginx reverse proxy at `https://agent-readme.md`.  The IIS server is on a separate network, so deployment is a file copy of the crucial site files to the web root.
+
+Use the included script to copy the deploy set (everything except repository-management files) into an IIS site folder:
+
+```
+# Deploy to C:\inetpub\agent-readme.md (defaults)
+.\scripts\Deploy-Site.ps1
+
+# Preview without changing anything
+.\scripts\Deploy-Site.ps1 -WhatIf
+
+# Target a different root or folder name, mirroring (removes stale files first)
+.\scripts\Deploy-Site.ps1 -DestinationRoot 'D:\sites' -SiteFolderName 'agent-readme.md' -Clean
+```
+
+The `web.config` maps `.md` to `text/plain; charset=utf-8` so the root `agent-readme.md` renders inline in a browser while remaining trivially fetchable by agents.
 
 ## Licensing
 
