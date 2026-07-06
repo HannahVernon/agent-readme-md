@@ -1,0 +1,26 @@
+# Normalize all text files. Git stores LF internally and applies the
+# per-path eol rules below on checkout.
+* text=auto
+
+# --- Windows / IIS tooling: force CRLF ---
+*.config    text eol=crlf
+
+# --- Web source: normalize to LF in the repo ---
+*.html      text eol=lf
+*.css       text eol=lf
+*.js        text eol=lf
+*.json      text eol=lf
+*.svg       text eol=lf
+
+# --- Markdown (the whole point of this project): LF ---
+*.md        text eol=lf
+
+# --- Binary assets: never touch ---
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.webp      binary
+*.woff      binary
+*.woff2     binary
