@@ -1,0 +1,36 @@
+name: Mirror to Forgejo
+
+# GitHub is the canonical repository. This workflow triggers the Forgejo
+# pull-mirror to sync immediately on every push, so the public mirror at
+# code.hannahvernon.com stays current without waiting for its periodic poll.
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+concurrency:
+  group: forgejo-mirror-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Forgejo mirror-sync
+        env:
+          FORGEJO_SYNC_TOKEN: ${{ secrets.FORGEJO_SYNC_TOKEN }}
+        run: |
+          if [ -z "$FORGEJO_SYNC_TOKEN" ]; then
+            echo "FORGEJO_SYNC_TOKEN secret is not set; skipping. Forgejo will still sync on its periodic interval."
+            exit 0
+          fi
+          code=$(curl -sS -o /dev/null -w "%{http_code}" -X POST \
+            -H "Authorization: token $FORGEJO_SYNC_TOKEN" \
+            "https://code.hannahvernon.com/api/v1/repos/hannah-vernon/agent-readme-md/mirror-sync")
+          echo "mirror-sync HTTP status: $code"
+          # 200/202 indicate the sync was accepted.
+          if [ "$code" != "200" ] && [ "$code" != "202" ]; then
+            echo "Unexpected status from Forgejo mirror-sync."
+            exit 1
+          fi
