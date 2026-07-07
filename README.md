@@ -12,6 +12,7 @@ Path | Purpose
 -----|--------
 `index.html` | Homepage, styled as a rendered Markdown document
 `spec/index.html` | The draft AGENT-README.md specification (v0.1)
+`compare/index.html` | AGENTS.md vs. AGENT-README.md comparison
 `examples/index.html` | Templates gallery
 `examples/AGENT-README.*.md` | Copy-paste starter templates (blank, Node, .NET, Python)
 `agent-readme.md` | The self-referential example, served from the site root

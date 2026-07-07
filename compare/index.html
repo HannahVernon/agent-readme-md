@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AGENTS.md vs. AGENT-README.md &mdash; agent-readme.md</title>
+  <meta name="description" content="An honest comparison of the AGENTS.md convention and AGENT-README.md: shared premise, benefits, tradeoffs, and how to use them together.">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="inner">
+      <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+      <span class="path"><b>agent-readme.md</b> &mdash; /compare</span>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/spec/">Spec</a>
+        <a href="/agent-readme.md">Example</a>
+        <a href="/examples/">Templates</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="doc">
+      <div class="doc-head">
+        <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+        <span>COMPARE.md &mdash; Preview</span>
+      </div>
+      <div class="doc-body">
+
+        <p class="kicker"># comparison &middot; honest tradeoffs</p>
+        <h1>AGENTS.md vs. AGENT-README.md</h1>
+        <p class="tagline">The same premise, two takes. Here is where each one helps, where each one falls short, and why you might use both.</p>
+
+        <blockquote>
+          Full disclosure up front: <code>AGENTS.md</code> is the established convention. It is used by 60k+ open-source projects, it is plain open Markdown, and it already describes itself as "a README for agents." <code>AGENT-README.md</code> shares that premise. This page is not a takedown; it is an honest account of the differences so you can choose well.
+        </blockquote>
+
+        <h2>What AGENTS.md does well</h2>
+        <ul>
+          <li><strong>Adoption and predictability.</strong> With tens of thousands of repositories using it and several agent tools looking for it by name, an agent does not have to guess whether guidance lives in <code>README.md</code>, <code>CONTRIBUTING.md</code>, or <code>docs/</code>.</li>
+          <li><strong>Repository-specific guidance.</strong> A natural home for preferred test commands, coding conventions, architectural constraints, and "do not touch this subsystem" notes.</li>
+          <li><strong>Less prompt repetition.</strong> Encode "always run tests before committing" once, in the repo, instead of re-typing it every session.</li>
+          <li><strong>Minimalism.</strong> No required schema, no YAML, no JSON: just Markdown. That low bar is a large part of why it spread, and it avoids locking a project into any one vendor's format.</li>
+          <li><strong>Nested files.</strong> Large repositories can place an <code>AGENTS.md</code> per directory, and the nearest file to the code being edited wins. Different parts of a monorepo can carry different rules.</li>
+          <li><strong>Open and vendor-neutral.</strong> One filename any tool can support, rather than a separate file per assistant.</li>
+        </ul>
+
+        <h2>Tradeoffs that apply to both</h2>
+        <p>These are not weaknesses of <code>AGENTS.md</code> specifically. They are inherent to any file that guides an agent, and <code>AGENT-README.md</code> carries them too.</p>
+        <ul>
+          <li><strong>Advisory, not enforcement.</strong> An agent can ignore or misread the file. It complements, and does not replace, CI, linters, branch protection, and tests.</li>
+          <li><strong>It can go stale.</strong> A wrong build command or an outdated architecture note can lead an agent to confidently do the wrong thing. It needs the same upkeep as any documentation.</li>
+          <li><strong>Prompt-engineering bloat.</strong> Both formats invite a failure mode: filling the file with generic "AI psychology" ("think deeply", "never hallucinate", "be an expert"). That advice ages badly as models improve and tends to have diminishing returns. Repository-specific facts have a much longer shelf life.</li>
+        </ul>
+
+        <h2>Where AGENT-README.md leans differently</h2>
+        <p>The goal is not a different premise; it is a more opinionated take on the same one.</p>
+        <ul>
+          <li><strong>A self-describing name next to README.md.</strong> It reads as "a README, but for agents," and sorts alphabetically beside <code>README.md</code>. (In fairness, <code>AGENTS.md</code> uses the same tagline, so this is a matter of emphasis, not exclusivity.)</li>
+          <li><strong>A light, recognizable structure.</strong> The draft spec names a small set of headings (Purpose, Setup &amp; commands, Conventions, Guardrails, Architecture, Contacts) and elevates <code>## Guardrails</code> as the section an agent should honor first. It stays plain Markdown, with no required schema.</li>
+          <li><strong>An optional metadata header.</strong> A tiny, flat <code>Key: value</code> block (deliberately not YAML) for identity and pointers, never for instructions.</li>
+          <li><strong>Beyond repositories.</strong> The convention also defines serving the file at a website root (<code>/agent-readme.md</code>), so a site, not only a repo, can describe itself to visiting agents.</li>
+          <li><strong>Philosophy over procedure.</strong> Agents are already good at discovering build commands. They are worse at inferring a project's values. The convention encourages capturing durable principles ("performance matters more than brevity", "every storage-internals claim must be reproducible") alongside the commands.</li>
+        </ul>
+
+        <h2>The honest concern: fragmentation</h2>
+        <p>A standard only helps if people converge on it. Introducing another filename risks worsening the very sprawl this space complains about (<code>CLAUDE.md</code>, <code>GEMINI.md</code>, <code>COPILOT.md</code>, <code>CURSOR.md</code>, and so on). Our position:</p>
+        <ul>
+          <li>If you already use <code>AGENTS.md</code>, keep it. <code>AGENT-README.md</code> is compatible and can reference or alias it (a one-line pointer in either direction).</li>
+          <li>The aim is one file that any agent understands, not another vendor silo. If the ecosystem settles on a single name, that is a win regardless of which name it is.</li>
+        </ul>
+
+        <h2>Ideas we are taking from review feedback</h2>
+        <p>An external review of the draft surfaced four directions we intend to fold into the spec. They are listed here so the comparison is honest about what is shipped versus planned.</p>
+        <ul>
+          <li><strong>Facts vs. Preferences.</strong> Separate the non-negotiable ("Database is SQL Server", "Use NUnit") from the negotiable ("prefer CTEs over nested subqueries", "British spelling"), so an agent can reason about them differently.</li>
+          <li><strong>A "things that surprise newcomers" section.</strong> The tacit knowledge experienced contributors carry ("this table has no foreign keys by design", "never rename this procedure; customers call it directly") is exactly what a new contributor, or an agent, does not know.</li>
+          <li><strong>Nested, per-directory files.</strong> Adopt the same nearest-wins model <code>AGENTS.md</code> uses, so a database folder and a web frontend can carry different rules.</li>
+          <li><strong>An explicit stance against prompt filler.</strong> The spec should actively discourage generic model-steering text in favor of repository-specific knowledge.</li>
+        </ul>
+
+        <h2>At a glance</h2>
+        <table>
+          <thead><tr><th>Dimension</th><th>AGENTS.md</th><th>AGENT-README.md</th></tr></thead>
+          <tbody>
+            <tr><td>Maturity</td><td>Established, 60k+ projects</td><td>New, draft v0.1</td></tr>
+            <tr><td>Tool auto-discovery</td><td>Recognized by several tools</td><td>None yet</td></tr>
+            <tr><td>Format</td><td>Plain Markdown, no schema</td><td>Plain Markdown; optional flat metadata header</td></tr>
+            <tr><td>Structure</td><td>Freeform</td><td>Recommended named sections; Guardrails first</td></tr>
+            <tr><td>Nested files</td><td>Yes, nearest-wins</td><td>Planned, same model</td></tr>
+            <tr><td>Scope</td><td>Repositories</td><td>Repositories and website roots</td></tr>
+            <tr><td>Framing</td><td>"README for agents"</td><td>"README for agents", human-first emphasis</td></tr>
+            <tr><td>Enforcement</td><td>Advisory</td><td>Advisory</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Which should I use?</h2>
+        <ul>
+          <li><strong>Want maximum tool compatibility today?</strong> Use <code>AGENTS.md</code>.</li>
+          <li><strong>Want the structure, guardrail priority, and metadata ideas here?</strong> Use <code>AGENT-README.md</code>, and consider keeping an <code>AGENTS.md</code> that points at it (or the reverse).</li>
+          <li><strong>Either way:</strong> keep the file repository-specific, keep it current, and leave the generic AI pep talk out.</li>
+        </ul>
+
+        <hr>
+        <p>Read the <a href="/spec/">draft spec</a>, see this site's own <a href="/agent-readme.md">agent-readme.md</a>, or grab a <a href="/examples/">template</a>.</p>
+
+        <h2>References</h2>
+        <ul>
+          <li><a href="https://agents.md/">agents.md</a> - the AGENTS.md format, self-described as "a README for agents", "used by over 60k open-source projects" (retrieved 2026-07-07).</li>
+          <li><a href="https://github.com/agentsmd/agents.md">github.com/agentsmd/agents.md</a> - the open source of the AGENTS.md site.</li>
+          <li>External design review of the AGENT-README.md draft (ChatGPT), which contributed the Facts-vs-Preferences, newcomer-surprises, nested-files, and anti-prompt-filler suggestions.</li>
+        </ul>
+
+        <footer>
+          agent-readme.md &middot; comparison &middot; licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
