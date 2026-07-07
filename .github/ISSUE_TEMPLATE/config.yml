@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discuss the spec
+    url: https://github.com/HannahVernon/agent-readme-md/discussions
+    about: For open-ended questions and proposals about the AGENT-README.md convention, please start a discussion.
+  - name: Read the spec
+    url: https://agent-readme.md/spec/
+    about: The draft specification and templates.

@@ -72,6 +72,7 @@ A flat static site.  No MCP servers or external context endpoints; the project i
 - `index.html` - the homepage, styled as a rendered Markdown document.
 - `spec/index.html` - the draft AGENT-README.md specification.
 - `compare/index.html` - the AGENTS.md vs. AGENT-README.md comparison.
+- `roadmap/index.html` - the project roadmap (mirrors `ROADMAP.md`).
 - `examples/` - copy-paste starter templates, plus the templates gallery page.
 - `agent-readme.md` - this file; the self-referential reference example.
 - `assets/style.css` - the single shared stylesheet.

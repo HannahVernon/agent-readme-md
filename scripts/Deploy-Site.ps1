@@ -84,6 +84,7 @@ $deploySet = @(
     'assets'
     'spec'
     'compare'
+    'roadmap'
     'examples'
 )
 
