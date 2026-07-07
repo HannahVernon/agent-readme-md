@@ -2,7 +2,7 @@
 # per-path eol rules below on checkout.
 * text=auto
 
-# --- Windows / IIS / PowerShell tooling: force CRLF ---
+# --- Windows / PowerShell tooling: force CRLF ---
 *.config    text eol=crlf
 *.ps1       text eol=crlf
 *.psm1      text eol=crlf

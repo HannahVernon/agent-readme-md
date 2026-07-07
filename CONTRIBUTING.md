@@ -15,7 +15,7 @@ This is a dependency-free static site.  There is no build step, no package manag
 - `index.html`, `spec/`, `compare/`, `examples/` - the site pages.
 - `agent-readme.md` - the self-referential example, served from the site root.
 - `assets/` - the stylesheet and the project mark.
-- `scripts/Deploy-Site.ps1` - deploys the site to an IIS web root.
+- `scripts/Deploy-Site.ps1` - deploys the site to a web server's document root.
 
 ## Branch model
 

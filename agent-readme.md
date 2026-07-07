@@ -21,7 +21,7 @@ This project is a small static website that proposes and documents the **AGENT-R
 There is no build step or toolchain.  This is hand-authored static HTML, CSS, and Markdown.
 
 - Serve locally: point any static file server at the project root, e.g. `python -m http.server 8080`.
-- Deploy: copy the files to the web root.  In production this site is hosted on IIS behind an nginx reverse proxy at `https://agent-readme.md`.
+- Deploy: copy the files into your web server's document root.  The live site is served as static files at `https://agent-readme.md`.
 - There are no tests, linters, or package managers to run.
 
 ## Conventions
@@ -78,8 +78,8 @@ A flat static site.  No MCP servers or external context endpoints; the project i
 - `assets/style.css` - the single shared stylesheet.
 - `assets/logo.svg` - the project mark, also used as the favicon.
 - `badge.svg` - the adoption badge, hotlinkable at `/badge.svg`.
-- `scripts/Deploy-Site.ps1` - deploys the crucial site files to an IIS web root.
-- `web.config` - IIS configuration (default document plus the `.md` MIME mapping so this file serves as text).
+- `scripts/Deploy-Site.ps1` - deploys the crucial site files to a web server's document root.
+- `web.config` - web server configuration (default document plus the `.md` MIME mapping so this file serves as text).
 
 ## Contacts
 

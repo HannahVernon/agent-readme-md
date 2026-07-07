@@ -13,4 +13,4 @@ We will acknowledge your report, investigate promptly, and keep you informed of 
 
 ## Scope
 
-This is a static website and specification.  The most likely areas of concern are the deployment script (`scripts/Deploy-Site.ps1`) and the IIS configuration (`web.config`).  The specification prose itself is advisory content and is not a security boundary.
+This is a static website and specification.  The most likely areas of concern are the deployment script (`scripts/Deploy-Site.ps1`) and the web server configuration (`web.config`).  The specification prose itself is advisory content and is not a security boundary.
