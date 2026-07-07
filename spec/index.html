@@ -36,7 +36,7 @@
         <div class="badges">
           <span class="badge y">status: draft - expect changes</span>
           <span class="badge">version: 0.1</span>
-          <span class="badge">last updated: 2026-07-06</span>
+          <span class="badge">last updated: 2026-07-07</span>
         </div>
 
         <blockquote>
@@ -55,7 +55,8 @@
 
         <h2>2. Location &amp; naming</h2>
         <ul>
-          <li>For a <strong>repository</strong>, the file <strong>MUST</strong> be named <code>AGENT-README.md</code> and <strong>SHOULD</strong> live at the repository root. Agents <strong>SHOULD</strong> also search one level deep for per-package files in monorepos.</li>
+          <li>For a <strong>repository</strong>, the file <strong>MUST</strong> be named <code>AGENT-README.md</code> and <strong>SHOULD</strong> live at the repository root.</li>
+          <li><strong>Nested files.</strong> A large or multi-package repository <strong>MAY</strong> place additional <code>AGENT-README.md</code> files in subdirectories. When several apply, the file <strong>nearest</strong> to the code being changed takes precedence, and a nested file <strong>SHOULD</strong> be read as an override of, not a replacement for, the files above it. This lets, for instance, a database folder and a web frontend carry different rules.</li>
           <li>For a <strong>website</strong>, it <strong>SHOULD</strong> be served at <code>/agent-readme.md</code> with a <code>text/markdown</code> (or <code>text/plain</code>) content type.</li>
           <li>The filename comparison <strong>SHOULD</strong> be case-insensitive. <code>AGENT-README.md</code> is the canonical form.</li>
         </ul>
@@ -77,7 +78,9 @@
             <tr><td><code>## Setup &amp; commands</code></td><td>Exact, copy-paste commands to install, build, test, lint, and run.</td><td>SHOULD</td></tr>
             <tr><td><code>## Conventions</code></td><td>Language/version, style rules, structure, patterns to follow or avoid.</td><td>MAY</td></tr>
             <tr><td><code>## Guardrails</code></td><td>Hard rules: do-not-touch paths, secrets handling, when to stop and ask.</td><td>SHOULD</td></tr>
-            <tr><td><code>## Architecture</code></td><td>A short map of the codebase and links to deeper docs.</td><td>MAY</td></tr>
+            <tr><td><code>## Current state</code></td><td>What is mid-flight right now: active refactors, known-failing areas, and what to leave alone. Keeps an agent from "fixing" work in progress.</td><td>MAY</td></tr>
+            <tr><td><code>## Surprises</code></td><td>Things that would surprise a newcomer: intentional duplication, a table with no foreign keys by design, code that must not be renamed because callers depend on it.</td><td>MAY</td></tr>
+            <tr><td><code>## Architecture</code></td><td>A short map of the codebase, links to deeper docs, and any MCP servers or context endpoints the agent should use.</td><td>MAY</td></tr>
             <tr><td><code>## Contacts</code></td><td>Owners, review process, where to file issues.</td><td>MAY</td></tr>
           </tbody>
         </table>
@@ -89,6 +92,26 @@
 - Never commit files matching `.env*` or `*.pem`.
 - Do not run database migrations; prepare them and stop for review.
 - Ask before deleting files or rewriting git history.</code></pre>
+
+        <p>Guardrails <strong>MAY</strong> also state the agent's operating boundaries explicitly, so the limits are declared rather than left to inference. Useful boundaries to spell out:</p>
+        <ul>
+          <li><strong>Filesystem.</strong> Which paths are writable and which are off-limits (for example: write only under <code>src/</code>; never touch <code>vendor/</code>).</li>
+          <li><strong>Network.</strong> Whether the agent may reach the network at all, and if so, which hosts or package registries.</li>
+          <li><strong>Commands.</strong> Whether only the documented targets (<code>npm test</code>, <code>make build</code>) are permitted, or open-ended shell is acceptable.</li>
+        </ul>
+        <p>These declarations are still <strong>advisory</strong> (see &sect;6 and &sect;8). They inform a well-behaved agent and can guide a sandbox policy, but they do not by themselves enforce anything.</p>
+
+        <h3>4.2 Facts vs. preferences</h3>
+        <p>Not all guidance carries the same weight. A file <strong>SHOULD</strong> distinguish <strong>facts</strong> (non-negotiable, and usually verifiable) from <strong>preferences</strong> (negotiable style choices), because an agent can reason about them differently: facts constrain, preferences guide.</p>
+        <pre><code>## Conventions
+
+Facts (non-negotiable):
+- Database is SQL Server 2019.
+- Tests use NUnit.
+
+Preferences (negotiable):
+- Prefer CTEs over nested subqueries.
+- British spelling in user-facing text.</code></pre>
 
         <h2>5. Optional metadata header</h2>
         <p>A file <strong>MAY</strong> begin with a small metadata header: a block, fenced by a line of <code>---</code> above and below, containing one <code>Key: value</code> pair per line. It is a plain colon-delimited header, <strong>not YAML</strong>, chosen deliberately to avoid YAML's indentation and type-coercion pitfalls. The whole block is optional, and the Markdown body remains canonical.</p>
@@ -142,6 +165,15 @@ Issues: /issues
 
         <h2>8. A note on trust</h2>
         <p>Because the file is advisory and author-controlled, agents <strong>SHOULD</strong> treat its contents as untrusted input for the purposes of prompt-injection defence: follow its <em>project guidance</em>, but never let it override the operator's safety rules or coax the agent into exfiltrating secrets or acting outside its sanctioned scope.</p>
+
+        <h2>9. What not to include</h2>
+        <p>Keep the file about <em>this repository</em>. The following weaken it:</p>
+        <ul>
+          <li><strong>Generic model-steering text.</strong> Lines like "think deeply", "be an expert", or "never hallucinate" are prompt engineering, not project documentation. They add tokens, age badly as models change, and belong (if anywhere) in an operator's system prompt. Repository-specific facts have a far longer shelf life.</li>
+          <li><strong>Duplicated commands or rules.</strong> State each command or guardrail once, in the body. Do not copy them into the metadata header (see &sect;5) or repeat them across sections, so there is a single source of truth.</li>
+          <li><strong>Human onboarding and marketing.</strong> Overviews, badges, and sales copy belong in <code>README.md</code>. Keep this file focused on how to operate in the project.</li>
+          <li><strong>Secrets.</strong> Never place credentials, tokens, or private endpoints here. The file is often public and always author-controlled.</li>
+        </ul>
 
         <hr>
         <p>Have thoughts on this draft? That is exactly what it is for. See the <a href="/examples/">templates</a> to try it in a real project, or return <a href="/">home</a>.</p>
