@@ -75,9 +75,9 @@
         </ul>
 
         <h2>Ideas folded in from review feedback</h2>
-        <p>Three external reviews of the draft (ChatGPT, Google Gemini, and GitHub Copilot) surfaced improvements that are now part of the v0.1 spec:</p>
+        <p>Four external reviews of the draft (ChatGPT, Google Gemini, GitHub Copilot, and a top contributor on Stack Overflow for Agents) surfaced improvements that are now part of the v0.1 spec:</p>
         <ul>
-          <li><strong>Facts vs. Preferences.</strong> Separate the non-negotiable ("Database is SQL Server", "Use NUnit") from the negotiable ("prefer CTEs over nested subqueries", "British spelling"), so an agent can reason about them differently. (Spec &sect;4.2.)</li>
+          <li><strong>Facts vs. Preferences.</strong> Separate the non-negotiable ("Database is SQL Server", "Use NUnit") from the negotiable ("prefer CTEs over nested subqueries", "British spelling"), so an agent can reason about them differently. The review feedback tightened this to "facts first, keep it short". (Spec &sect;4.2.)</li>
           <li><strong>A "surprises" section.</strong> The tacit knowledge experienced contributors carry ("this table has no foreign keys by design", "never rename this procedure; customers call it directly") is exactly what a new contributor, or an agent, does not know. (Spec &sect;4.)</li>
           <li><strong>Nested, per-directory files.</strong> The same nearest-wins model <code>AGENTS.md</code> uses, so a database folder and a web frontend can carry different rules. (Spec &sect;2.)</li>
           <li><strong>An explicit stance against prompt filler.</strong> The spec now discourages generic model-steering text in favor of repository-specific knowledge. (Spec &sect;9.)</li>
@@ -88,7 +88,13 @@
           <li><strong>Migration and coexistence.</strong> Guidance for projects that already have an <code>AGENTS.md</code> or <code>.cursorrules</code>: keep the existing file as a pointer, avoid duplicated guidance, do not break tooling. (Spec &sect;7.)</li>
           <li><strong>Versioning and a changelog.</strong> An optional <code>Version</code> field and a <code>## Changes</code> section, so an agent can spot recently changed guidance. (Spec &sect;5.2 and &sect;4.)</li>
           <li><strong>Adoption signals.</strong> A README badge and a predictable, linkable file location. (Spec &sect;10.)</li>
+          <li><strong>Guardrails ordered for execution.</strong> An agent reviewer argued that a first screen of caution text "reads like policy, not an execution manual". Guardrails now sit directly after <code>## Setup &amp; commands</code>, above <code>## Conventions</code>: how to run the project, then how not to break it, then style. (Spec &sect;4 and &sect;4.1.)</li>
+          <li><strong>Repo-specific over generic guardrails.</strong> The same review noted that "never edit <code>schema.generated.ts</code>" is operationally decisive while "ask before deleting files" is generic advice most agents already follow. The spec now tells authors to lead with repo-specific rules and keep generic caution to a minimum. (Spec &sect;4.1.)</li>
+          <li><strong>Single source of truth, made explicit.</strong> The reviewer's core point: a second file only helps if it is <em>the</em> canonical agent-facing document, with other surfaces reduced to a pointer. Additive-alongside guidance recreates the fragmentation the convention is meant to remove. This reinforces the migration guidance in &sect;7.</li>
         </ul>
+
+        <h3>An open question we are holding a position on</h3>
+        <p>The same reviewer questioned whether a new filename is worth it when <code>AGENTS.md</code> already has adoption momentum. Our position: the filename should describe the file. <code>AGENT-README.md</code> reads immediately as "the README for agents", the way <code>README.md</code> reads as "read this first". Current adoption measures momentum, not which design is clearer over the long run, so we would rather argue for the self-describing name and let adoption follow. The reviewer's underlying concern still holds, and we accept it: whichever name a project picks, there must be exactly one canonical file and the rest must point at it.</p>
 
         <h2>At a glance</h2>
         <table>
@@ -119,7 +125,7 @@
         <ul>
           <li><a href="https://agents.md/">agents.md</a> - the AGENTS.md format, self-described as "a README for agents", "used by over 60k open-source projects" (retrieved 2026-07-07).</li>
           <li><a href="https://github.com/agentsmd/agents.md">github.com/agentsmd/agents.md</a> - the open source of the AGENTS.md site.</li>
-          <li>External design reviews of the AGENT-README.md draft (ChatGPT, Google Gemini, and GitHub Copilot). ChatGPT contributed the Facts-vs-Preferences, newcomer-surprises, nested-files, and anti-prompt-filler ideas. Gemini contributed the explicit tool-access boundaries, the "current state" section, and MCP/context-endpoint pointers. GitHub Copilot contributed the consumer algorithm, migration/coexistence guidance, structured guardrails, versioning/changelog, and adoption signals.</li>
+          <li>External design reviews of the AGENT-README.md draft (ChatGPT, Google Gemini, GitHub Copilot, and Stack Overflow for Agents). ChatGPT contributed the Facts-vs-Preferences, newcomer-surprises, nested-files, and anti-prompt-filler ideas. Gemini contributed the explicit tool-access boundaries, the "current state" section, and MCP/context-endpoint pointers. GitHub Copilot contributed the consumer algorithm, migration/coexistence guidance, structured guardrails, versioning/changelog, and adoption signals. A top contributor on the <a href="https://agents.stackoverflow.com/questions/981053dc-fff3-424c-8807-3c387fbb7aed">Stack Overflow for Agents review thread</a> contributed the execution-first ordering (guardrails after commands), the repo-specific-over-generic emphasis, and the single-source-of-truth argument.</li>
         </ul>
 
         <footer>
