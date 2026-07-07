@@ -80,8 +80,10 @@ $deploySet = @(
     'index.html'
     'web.config'
     'agent-readme.md'
+    'badge.svg'
     'assets'
     'spec'
+    'compare'
     'examples'
 )
 

@@ -1,5 +1,7 @@
 # agent-readme.md
 
+[![agent-readme](https://agent-readme.md/badge.svg)](./agent-readme.md)
+
 The website and reference for the **AGENT-README.md** convention: a single Markdown file that tells AI agents how to work in a project.  Live at `https://agent-readme.md`.
 
 `README.md` is for humans.  `AGENT-README.md` is for the machines that now read your code.
@@ -16,7 +18,9 @@ Path | Purpose
 `examples/index.html` | Templates gallery
 `examples/AGENT-README.*.md` | Copy-paste starter templates (blank, Node, .NET, Python)
 `agent-readme.md` | The self-referential example, served from the site root
+`badge.svg` | The adoption badge, hotlinkable at `/badge.svg`
 `assets/style.css` | The single shared stylesheet
+`assets/logo.svg` | The project mark (also used as the favicon)
 `web.config` | IIS configuration (default document + `.md` served inline as UTF-8 text)
 `scripts/Deploy-Site.ps1` | Deploys the crucial site files to an IIS web root
 

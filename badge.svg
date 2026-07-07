@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="20" role="img" aria-label="agent-readme: v0.1">
+  <title>agent-readme: v0.1</title>
+  <linearGradient id="s" x2="0" y2="100%">
+    <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <clipPath id="r"><rect width="150" height="20" rx="3" fill="#fff"/></clipPath>
+  <g clip-path="url(#r)">
+    <rect width="110" height="20" fill="#24292f"/>
+    <rect x="110" width="40" height="20" fill="#1f6feb"/>
+    <rect width="150" height="20" fill="url(#s)"/>
+  </g>
+  <g transform="translate(6,5.5)" fill="none" stroke="#58a6ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 0 L4 4.5 L0 9"/>
+  </g>
+  <rect x="11" y="12.4" width="6" height="1.7" rx="0.85" fill="#3fb950"/>
+  <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
+    <text x="65" y="15" fill="#010101" fill-opacity=".3">agent-readme</text>
+    <text x="65" y="14">agent-readme</text>
+    <text x="130" y="15" fill="#010101" fill-opacity=".3">v0.1</text>
+    <text x="130" y="14">v0.1</text>
+  </g>
+</svg>

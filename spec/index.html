@@ -6,6 +6,7 @@
   <title>Draft Spec - agent-readme.md</title>
   <meta name="description" content="The draft specification for AGENT-README.md: a Markdown convention that tells AI agents how to work in your project.">
   <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 </head>
 <body>
   <div class="topbar">
@@ -207,9 +208,9 @@ Issues: /issues
         </ul>
 
         <h2>10. Adoption</h2>
-        <p>To signal that a repository follows this convention, a project <strong>MAY</strong> add a badge to its <code>README.md</code>. A badge is human-facing, so it belongs in <code>README.md</code>, not in <code>AGENT-README.md</code>:</p>
-        <pre><code>[![agent-readme](https://img.shields.io/badge/agent--readme-v0.1-blue)](./AGENT-README.md)</code></pre>
-        <p>Because the file lives at a predictable path, it is directly linkable, for example <code>https://github.com/&lt;owner&gt;/&lt;repo&gt;/blob/main/AGENT-README.md</code>, or served from a site root at <code>/agent-readme.md</code>.</p>
+        <p>To signal that a repository follows this convention, a project <strong>MAY</strong> add a badge to its <code>README.md</code>. A badge is human-facing, so it belongs in <code>README.md</code>, not in <code>AGENT-README.md</code>. Link the official badge and point it at your file:</p>
+        <pre><code>[![agent-readme](https://agent-readme.md/badge.svg)](./AGENT-README.md)</code></pre>
+        <p>The badge SVG is served from <code>https://agent-readme.md/badge.svg</code>, so its design stays consistent across projects. Because the file itself lives at a predictable path, it is directly linkable, for example <code>https://github.com/&lt;owner&gt;/&lt;repo&gt;/blob/main/AGENT-README.md</code>, or served from a site root at <code>/agent-readme.md</code>.</p>
 
         <hr>
         <p>Have thoughts on this draft? That is exactly what it is for. See the <a href="/examples/">templates</a> to try it in a real project, or return <a href="/">home</a>.</p>

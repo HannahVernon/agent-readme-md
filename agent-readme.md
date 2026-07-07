@@ -75,6 +75,8 @@ A flat static site.  No MCP servers or external context endpoints; the project i
 - `examples/` - copy-paste starter templates, plus the templates gallery page.
 - `agent-readme.md` - this file; the self-referential reference example.
 - `assets/style.css` - the single shared stylesheet.
+- `assets/logo.svg` - the project mark, also used as the favicon.
+- `badge.svg` - the adoption badge, hotlinkable at `/badge.svg`.
 - `scripts/Deploy-Site.ps1` - deploys the crucial site files to an IIS web root.
 - `web.config` - IIS configuration (default document plus the `.md` MIME mapping so this file serves as text).
 
