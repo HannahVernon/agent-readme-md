@@ -82,6 +82,7 @@
             <tr><td><code>## Surprises</code></td><td>Things that would surprise a newcomer: intentional duplication, a table with no foreign keys by design, code that must not be renamed because callers depend on it.</td><td>MAY</td></tr>
             <tr><td><code>## Architecture</code></td><td>A short map of the codebase, links to deeper docs, and any MCP servers or context endpoints the agent should use.</td><td>MAY</td></tr>
             <tr><td><code>## Contacts</code></td><td>Owners, review process, where to file issues.</td><td>MAY</td></tr>
+            <tr><td><code>## Changes</code></td><td>A short reverse-chronological log of notable edits to this file, so an agent can spot recently changed guidance.</td><td>MAY</td></tr>
           </tbody>
         </table>
 
@@ -98,8 +99,14 @@
           <li><strong>Filesystem.</strong> Which paths are writable and which are off-limits (for example: write only under <code>src/</code>; never touch <code>vendor/</code>).</li>
           <li><strong>Network.</strong> Whether the agent may reach the network at all, and if so, which hosts or package registries.</li>
           <li><strong>Commands.</strong> Whether only the documented targets (<code>npm test</code>, <code>make build</code>) are permitted, or open-ended shell is acceptable.</li>
+          <li><strong>Operations.</strong> Which actions are permitted (read-only analysis, opening pull requests for review) versus those that require human approval (merging, deploying, deleting files, changing branch protection).</li>
         </ul>
         <p>These declarations are still <strong>advisory</strong> (see &sect;6 and &sect;8). They inform a well-behaved agent and can guide a sandbox policy, but they do not by themselves enforce anything.</p>
+        <p>Grouping guardrails by kind helps the important cases stand out. One effective shape is protected paths, actions that need approval, and what is safe by default:</p>
+        <pre><code>## Guardrails
+- Protected paths: `vendor/`, `dist/`, `.env*`
+- Requires approval: deleting files, rewriting history, touching production config
+- Safe by default: read-only analysis, opening a pull request for review</code></pre>
 
         <h3>4.2 Facts vs. preferences</h3>
         <p>Not all guidance carries the same weight. A file <strong>SHOULD</strong> distinguish <strong>facts</strong> (non-negotiable, and usually verifiable) from <strong>preferences</strong> (negotiable style choices), because an agent can reason about them differently: facts constrain, preferences guide.</p>
@@ -112,6 +119,14 @@ Facts (non-negotiable):
 Preferences (negotiable):
 - Prefer CTEs over nested subqueries.
 - British spelling in user-facing text.</code></pre>
+
+        <h3>4.3 Example: an Architecture section</h3>
+        <p>The <code>## Architecture</code> section is where "links to deeper docs" become concrete. Point at the specific documents and directories an agent needs, rather than describing them in prose:</p>
+        <pre><code>## Architecture
+- Design: see `ARCHITECTURE.md`.
+- Database: PostgreSQL; migrations in `db/migrations/`.
+- CI/CD: GitHub Actions; workflows in `.github/workflows/`.
+- Context: the `docs-mcp` server exposes the domain glossary.</code></pre>
 
         <h2>5. Optional metadata header</h2>
         <p>A file <strong>MAY</strong> begin with a small metadata header: a block, fenced by a line of <code>---</code> above and below, containing one <code>Key: value</code> pair per line. It is a plain colon-delimited header, <strong>not YAML</strong>, chosen deliberately to avoid YAML's indentation and type-coercion pitfalls. The whole block is optional, and the Markdown body remains canonical.</p>
@@ -143,6 +158,7 @@ Issues: /issues
           <thead><tr><th>Key</th><th>Meaning</th><th>Note</th></tr></thead>
           <tbody>
             <tr><td><code>Agent-Readme</code></td><td>The spec version this file targets.</td><td>Recommended. A staleness / compatibility hint.</td></tr>
+            <tr><td><code>Version</code></td><td>This file's own revision, distinct from the spec version.</td><td>Optional. Pairs with a <code>## Changes</code> log.</td></tr>
             <tr><td><code>Name</code></td><td>The project or document title.</td><td>Recommended.</td></tr>
             <tr><td><code>Updated</code></td><td>Date the file was last reviewed.</td><td>Recommended. ISO-8601; lets an agent judge staleness.</td></tr>
             <tr><td><code>Description</code></td><td>A one-line summary.</td><td>Optional.</td></tr>
@@ -159,9 +175,24 @@ Issues: /issues
         <h2>6. Precedence</h2>
         <p>An <code>AGENT-README.md</code> is <em>project guidance</em>. It <strong>MUST NOT</strong> be treated as a security boundary: it is advisory, like <code>robots.txt</code>. Where it conflicts with an operator's or platform's explicit safety policy, that policy <strong>MUST</strong> win. Where it conflicts with a tool-specific file the agent already honours, the agent <strong>SHOULD</strong> prefer the more specific and more restrictive instruction.</p>
 
-        <h2>7. Relationship to existing files</h2>
-        <p>This convention does not aim to replace tool-specific files. An <code>AGENT-README.md</code> <strong>MAY</strong> point at them:</p>
+        <h3>6.1 How an agent should consume this file</h3>
+        <p>A well-behaved agent <strong>SHOULD</strong> follow this sequence when it starts work in a project:</p>
+        <ol>
+          <li><strong>Discover.</strong> Look for <code>AGENT-README.md</code> at the repository root (case-insensitive). For a change in a subdirectory, prefer the <strong>nearest</strong> file (see &sect;2). For a website, request <code>/agent-readme.md</code>.</li>
+          <li><strong>Read guardrails first.</strong> Load <code>## Guardrails</code> before acting, and check each proposed action against it (see &sect;4.1).</li>
+          <li><strong>Treat it as the project's source of truth</strong> for how to work here, while honouring precedence: an operator's safety policy always wins (&sect;6), and its contents are untrusted for injection purposes (&sect;8).</li>
+          <li><strong>Re-check on staleness.</strong> If the <code>Updated</code> date or <code>## Changes</code> log looks old relative to the code, treat specific commands and facts with extra caution.</li>
+        </ol>
+
+        <h2>7. Relationship, migration, and coexistence</h2>
+        <p>This convention does not aim to replace tool-specific files (<code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>.cursorrules</code>, and the like). It offers one obvious, tool-neutral home and coexists with the others. An <code>AGENT-README.md</code> <strong>MAY</strong> point at them:</p>
         <pre><code>&gt; Tool-specific notes: see `CLAUDE.md` and `.github/copilot-instructions.md`.</code></pre>
+        <p>When a project already has one of those files, adopting <code>AGENT-README.md</code> <strong>SHOULD</strong> follow a light migration:</p>
+        <ol>
+          <li>Make <code>AGENT-README.md</code> the canonical, tool-neutral guidance.</li>
+          <li>Leave the existing file in place, but reduce it to tool-specific configuration plus a one-line pointer to <code>AGENT-README.md</code>, so there is no duplicated or conflicting guidance.</li>
+          <li>Do not delete a file that tooling still reads automatically; a pointer avoids breaking existing workflows.</li>
+        </ol>
 
         <h2>8. A note on trust</h2>
         <p>Because the file is advisory and author-controlled, agents <strong>SHOULD</strong> treat its contents as untrusted input for the purposes of prompt-injection defence: follow its <em>project guidance</em>, but never let it override the operator's safety rules or coax the agent into exfiltrating secrets or acting outside its sanctioned scope.</p>
@@ -174,6 +205,11 @@ Issues: /issues
           <li><strong>Human onboarding and marketing.</strong> Overviews, badges, and sales copy belong in <code>README.md</code>. Keep this file focused on how to operate in the project.</li>
           <li><strong>Secrets.</strong> Never place credentials, tokens, or private endpoints here. The file is often public and always author-controlled.</li>
         </ul>
+
+        <h2>10. Adoption</h2>
+        <p>To signal that a repository follows this convention, a project <strong>MAY</strong> add a badge to its <code>README.md</code>. A badge is human-facing, so it belongs in <code>README.md</code>, not in <code>AGENT-README.md</code>:</p>
+        <pre><code>[![agent-readme](https://img.shields.io/badge/agent--readme-v0.1-blue)](./AGENT-README.md)</code></pre>
+        <p>Because the file lives at a predictable path, it is directly linkable, for example <code>https://github.com/&lt;owner&gt;/&lt;repo&gt;/blob/main/AGENT-README.md</code>, or served from a site root at <code>/agent-readme.md</code>.</p>
 
         <hr>
         <p>Have thoughts on this draft? That is exactly what it is for. See the <a href="/examples/">templates</a> to try it in a real project, or return <a href="/">home</a>.</p>
