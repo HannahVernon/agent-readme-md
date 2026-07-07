@@ -17,18 +17,18 @@ A Node.js/TypeScript service. "Done" = type-checks clean, tests pass, and lint i
 - Lint:    `npm run lint`   # must pass before any commit
 - Run dev: `npm run dev`
 
-## Conventions
-- TypeScript, strict mode. Do not use `any`; prefer `unknown` and narrow.
-- Prettier is the source of truth for formatting; do not hand-format.
-- Co-locate tests as `*.test.ts` next to the code under test.
-- Prefer named exports.
-
 ## Guardrails
 - Never edit files under `dist/`, `node_modules/`, or `coverage/`.
 - Never commit anything matching `.env*`.
 - Do not add dependencies without noting why in the PR description.
 - Ask before changing the public API surface in `src/index.ts`.
 - Ask before deleting files or rewriting git history.
+
+## Conventions
+- TypeScript, strict mode. Do not use `any`; prefer `unknown` and narrow.
+- Prettier is the source of truth for formatting; do not hand-format.
+- Co-locate tests as `*.test.ts` next to the code under test.
+- Prefer named exports.
 
 ## Architecture
 - `src/` -- application code. Entry point: `src/index.ts`.

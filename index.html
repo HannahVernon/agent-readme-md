@@ -68,8 +68,8 @@
         <div class="cards">
           <div class="card"><h3>Purpose</h3><p>What the project is and what "done" looks like.</p></div>
           <div class="card"><h3>Commands</h3><p>Exact build, test, lint, and run commands - copy-paste ready.</p></div>
-          <div class="card"><h3>Conventions</h3><p>Code style, structure, and patterns to follow.</p></div>
           <div class="card"><h3>Guardrails</h3><p>Do-not-touch zones, secrets handling, destructive-action rules.</p></div>
+          <div class="card"><h3>Conventions</h3><p>Code style, structure, and patterns to follow.</p></div>
           <div class="card"><h3>Context</h3><p>Architecture notes and links to deeper docs.</p></div>
           <div class="card"><h3>Current state</h3><p>Active refactors and known-failing areas, so agents skip work in progress.</p></div>
           <div class="card"><h3>Surprises</h3><p>The non-obvious calls a newcomer would trip over.</p></div>
@@ -88,14 +88,14 @@ A CLI that converts CSV to Parquet. "Done" = tests pass and `--help` is accurate
 - Test:    `npm test`
 - Lint:    `npm run lint`  # must pass before any commit
 
-## Conventions
-- TypeScript, strict mode. No `any`.
-- Prettier is the source of truth for formatting.
-
 ## Guardrails
 - Never edit files under `vendor/` or `dist/`.
 - Never commit anything in `.env*`.
 - Ask before deleting files or rewriting git history.
+
+## Conventions
+- TypeScript, strict mode. No `any`.
+- Prettier is the source of truth for formatting.
 
 ## Contacts
 - Owner: @maintainer &middot; Issues: /issues</code></pre>

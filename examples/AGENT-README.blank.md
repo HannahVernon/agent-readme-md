@@ -16,20 +16,21 @@ Updated: 2026-01-01
 - Lint:
 - Run:
 
-## Conventions
-<!-- Language + version, formatting rules, structure, patterns to follow or avoid.
-     Consider splitting non-negotiable facts from negotiable preferences: -->
-<!-- Facts (non-negotiable): -->
-<!-- Preferences (negotiable): -->
-
 ## Guardrails
 - Never modify:
 - Never commit:
 - Stop and ask before:
-<!-- Optional operating boundaries (still advisory):
+<!-- Lead with repo-specific rules (e.g. "never edit schema.generated.ts").
+     Optional operating boundaries (still advisory):
      Filesystem: writable paths vs off-limits.
      Network: allowed or not, and which hosts.
      Commands: documented targets only, or open shell. -->
+
+## Conventions
+<!-- Language + version, formatting rules, structure, patterns to follow or avoid.
+     Keep it short. Consider splitting non-negotiable facts from negotiable preferences: -->
+<!-- Facts (non-negotiable): -->
+<!-- Preferences (negotiable): -->
 
 ## Current state
 <!-- Optional. Active refactors, known-failing areas, and what to leave alone. -->

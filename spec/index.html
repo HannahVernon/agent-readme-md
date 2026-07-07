@@ -72,14 +72,14 @@
         </ul>
 
         <h2>4. Recommended sections</h2>
-        <p>Agents <strong>SHOULD</strong> recognise the following <code>##</code> headings by name. All are optional except <strong>Purpose</strong> and <strong>Guardrails</strong>, which <strong>SHOULD</strong> be present.</p>
+        <p>Agents <strong>SHOULD</strong> recognise the following <code>##</code> headings by name. All are optional except <strong>Purpose</strong> and <strong>Guardrails</strong>, which <strong>SHOULD</strong> be present. <strong>Order matters:</strong> the sequence below is the recommended order, front-loading the highest-value, repo-specific operating detail (how to run the project, then how not to break it) and pushing generic style further down, so an agent reading top to bottom reaches what changes its behaviour first.</p>
         <table>
           <thead><tr><th>Heading</th><th>Contains</th><th>Requirement</th></tr></thead>
           <tbody>
             <tr><td><code>## Purpose</code></td><td>One or two sentences on what the project is and the definition of "done".</td><td>SHOULD</td></tr>
             <tr><td><code>## Setup &amp; commands</code></td><td>Exact, copy-paste commands to install, build, test, lint, and run.</td><td>SHOULD</td></tr>
+            <tr><td><code>## Guardrails</code></td><td>Repo-specific hard rules: protected and generated paths, irreversible actions, secrets handling, when to stop and ask.</td><td>SHOULD</td></tr>
             <tr><td><code>## Conventions</code></td><td>Language/version, style rules, structure, patterns to follow or avoid.</td><td>MAY</td></tr>
-            <tr><td><code>## Guardrails</code></td><td>Hard rules: do-not-touch paths, secrets handling, when to stop and ask.</td><td>SHOULD</td></tr>
             <tr><td><code>## Current state</code></td><td>What is mid-flight right now: active refactors, known-failing areas, and what to leave alone. Keeps an agent from "fixing" work in progress.</td><td>MAY</td></tr>
             <tr><td><code>## Surprises</code></td><td>Things that would surprise a newcomer: intentional duplication, a table with no foreign keys by design, code that must not be renamed because callers depend on it.</td><td>MAY</td></tr>
             <tr><td><code>## Architecture</code></td><td>A short map of the codebase, links to deeper docs, and any MCP servers or context endpoints the agent should use.</td><td>MAY</td></tr>
@@ -88,8 +88,9 @@
           </tbody>
         </table>
 
-        <h3>4.1 Guardrails are the priority</h3>
-        <p>When an agent can read only part of the file, it <strong>MUST</strong> prioritise <code>## Guardrails</code>. Guardrail rules <strong>SHOULD</strong> be phrased as imperatives an agent can check against a proposed action, for example:</p>
+        <h3>4.1 Guardrails come right after commands</h3>
+        <p>Guardrails <strong>SHOULD</strong> sit directly after <code>## Setup &amp; commands</code>: once an agent knows how to operate the repo, the next thing it needs is how not to break it. If an agent can read only part of the file, it <strong>MUST</strong> prioritise <code>## Guardrails</code>.</p>
+        <p><strong>Repo-specific guardrails matter far more than generic ones.</strong> "Never edit <code>schema.generated.ts</code> or <code>vendor/</code>" is operationally decisive; "ask before deleting files" is generic advice most agents already follow. Lead with the rules that are specific to this repository, and keep generic caution to a minimum. Guardrail rules <strong>SHOULD</strong> be phrased as imperatives an agent can check against a proposed action, for example:</p>
         <pre><code>## Guardrails
 - Never modify files under `generated/` or `dist/`.
 - Never commit files matching `.env*` or `*.pem`.
@@ -111,7 +112,7 @@
 - Safe by default: read-only analysis, opening a pull request for review</code></pre>
 
         <h3>4.2 Facts vs. preferences</h3>
-        <p>Not all guidance carries the same weight. A file <strong>SHOULD</strong> distinguish <strong>facts</strong> (non-negotiable, and usually verifiable) from <strong>preferences</strong> (negotiable style choices), because an agent can reason about them differently: facts constrain, preferences guide.</p>
+        <p>Not all guidance carries the same weight. A file <strong>SHOULD</strong> distinguish <strong>facts</strong> (non-negotiable, and usually verifiable) from <strong>preferences</strong> (negotiable style choices), because an agent can reason about them differently: facts constrain, preferences guide. Keep this short: put facts first, and limit preferences to the handful that actually change code-generation or review outcomes. A long list of style preferences dilutes the file and buries what matters.</p>
         <pre><code>## Conventions
 
 Facts (non-negotiable):
@@ -132,6 +133,7 @@ Preferences (negotiable):
 
         <h2>5. Optional metadata header</h2>
         <p>A file <strong>MAY</strong> begin with a small metadata header: a block, fenced by a line of <code>---</code> above and below, containing one <code>Key: value</code> pair per line. It is a plain colon-delimited header, <strong>not YAML</strong>, chosen deliberately to avoid YAML's indentation and type-coercion pitfalls. The whole block is optional, and the Markdown body remains canonical.</p>
+        <p><strong>This header is not a required part of the file.</strong> Many good <code>AGENT-README.md</code> files will omit it entirely and start straight at <code># AGENT-README</code>. Include it only if something in your toolchain will actually read it, or if a spec version and a last-updated date are genuinely useful to your readers. Do not add it as boilerplate.</p>
         <pre><code>---
 Agent-Readme: 0.1
 Name: csv2parquet
