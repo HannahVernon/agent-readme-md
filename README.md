@@ -56,4 +56,6 @@ The `web.config` maps `.md` to `text/plain; charset=utf-8` so the root `agent-re
 
 ## Licensing
 
-Site prose and the specification are licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).  The starter templates under `examples/` are released under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) so they can be dropped into any project without attribution.
+Copyright (c) 2026 Hannah Vernon.
+
+Site prose and the specification are licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (see `LICENSE`).  The starter templates under `examples/` are released under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) so they can be dropped into any project without attribution.  The small amount of source code (the deployment script and the SVG assets) is additionally available under the MIT License.
