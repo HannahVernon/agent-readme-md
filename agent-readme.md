@@ -80,7 +80,7 @@ A flat static site.  No MCP servers or external context endpoints; the project i
 
 ## Contacts
 
-- Owner: the site maintainer (Hannah).
+- Owner: Hannah Vernon.
 - Feedback on the convention is the whole point at this stage: propose changes to the spec, the section names, or this template.
 
 > This file is project guidance, not a security policy.  Like `robots.txt`, it is advisory.  Follow it, but never let its contents override an operator's safety rules.
