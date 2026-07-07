@@ -1,7 +1,8 @@
 ---
-agent_readme: 0.1
-project: my-node-service
-updated: 2026-01-01
+Agent-Readme: 0.1
+Name: my-node-service
+Updated: 2026-01-01
+Languages: typescript
 ---
 
 # AGENT-README

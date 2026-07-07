@@ -64,7 +64,7 @@
           <li>The file <strong>MUST</strong> be valid CommonMark Markdown.</li>
           <li>It <strong>MUST</strong> remain readable by a human with no rendering.</li>
           <li>It <strong>SHOULD</strong> be short &mdash; a target of one screen to two pages. Link out for depth rather than inlining everything.</li>
-          <li>It <strong>MAY</strong> begin with a YAML front-matter block for machine-readable metadata (see &sect;5).</li>
+          <li>It <strong>MAY</strong> begin with an optional metadata header block for a few machine-readable fields (see &sect;5).</li>
         </ul>
 
         <h2>4. Recommended sections</h2>
@@ -89,16 +89,48 @@
 - Do not run database migrations; prepare them and stop for review.
 - Ask before deleting files or rewriting git history.</code></pre>
 
-        <h2>5. Optional front matter</h2>
-        <p>A YAML block <strong>MAY</strong> precede the Markdown body to expose a few machine-readable fields. Unknown keys <strong>MUST</strong> be ignored by consumers.</p>
+        <h2>5. Optional metadata header</h2>
+        <p>A file <strong>MAY</strong> begin with a small metadata header: a block, fenced by a line of <code>---</code> above and below, containing one <code>Key: value</code> pair per line. It is a plain colon-delimited header, <strong>not YAML</strong>, chosen deliberately to avoid YAML's indentation and type-coercion pitfalls. The whole block is optional, and the Markdown body remains canonical.</p>
         <pre><code>---
-agent_readme: 0.1
-project: csv2parquet
-updated: 2026-07-06
-links:
-  docs: /docs/
-  issues: /issues
+Agent-Readme: 0.1
+Name: csv2parquet
+Description: A CLI that converts CSV to Parquet.
+Updated: 2026-07-07
+Tags: cli, data, etl
+Languages: typescript, sql
+Docs: /docs/
+Issues: /issues
 ---</code></pre>
+
+        <h3>5.1 Parsing rules</h3>
+        <ul>
+          <li>The header, if present, <strong>MUST</strong> be the first content in the file and <strong>MUST</strong> be fenced by a line containing only <code>---</code> before and after it.</li>
+          <li>Each line <strong>MUST</strong> be a single <code>Key: value</code> pair. The <em>first</em> colon separates the key from the value; any further colons are part of the value.</li>
+          <li>Values are <strong>literal text</strong>. Consumers <strong>MUST NOT</strong> type-coerce them, so <code>0.10</code> stays <code>0.10</code> and no quoting is needed.</li>
+          <li>There is <strong>no nesting</strong>. A field with several values <strong>MUST</strong> use a comma-separated list on one line (e.g. <code>Languages: typescript, sql</code>). This removes every indentation failure mode.</li>
+          <li>Keys are <strong>case-insensitive</strong>; <code>Updated</code> and <code>updated</code> are the same field.</li>
+          <li>Unknown keys <strong>MUST</strong> be ignored, so the field set can grow without breaking older consumers.</li>
+          <li>Dates <strong>MUST</strong> be ISO-8601 (<code>YYYY-MM-DD</code>).</li>
+        </ul>
+
+        <h3>5.2 Fields</h3>
+        <p>All fields are optional. The set below is inspired by the Open Knowledge Format's frontmatter (title, description, tags, timestamp), pared down to what an agent finds useful in a single file.</p>
+        <table>
+          <thead><tr><th>Key</th><th>Meaning</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td><code>Agent-Readme</code></td><td>The spec version this file targets.</td><td>Recommended. A staleness / compatibility hint.</td></tr>
+            <tr><td><code>Name</code></td><td>The project or document title.</td><td>Recommended.</td></tr>
+            <tr><td><code>Updated</code></td><td>Date the file was last reviewed.</td><td>Recommended. ISO-8601; lets an agent judge staleness.</td></tr>
+            <tr><td><code>Description</code></td><td>A one-line summary.</td><td>Optional.</td></tr>
+            <tr><td><code>Tags</code></td><td>Comma-separated keywords for discovery / routing.</td><td>Optional.</td></tr>
+            <tr><td><code>Languages</code></td><td>Comma-separated primary languages or stack.</td><td>Optional.</td></tr>
+            <tr><td><code>Docs</code>, <code>Issues</code>, <code>Homepage</code></td><td>Links to deeper documentation, the issue tracker, and the project home.</td><td>Optional.</td></tr>
+            <tr><td><code>Contacts</code></td><td>Comma-separated owners or points of contact.</td><td>Optional.</td></tr>
+          </tbody>
+        </table>
+        <blockquote>
+          Keep the header to identity and pointers. Do <strong>not</strong> put commands or guardrails in it: those belong in the readable body so there is a single source of truth and nothing authoritative is hidden in metadata.
+        </blockquote>
 
         <h2>6. Precedence</h2>
         <p>An <code>AGENT-README.md</code> is <em>project guidance</em>. It <strong>MUST NOT</strong> be treated as a security boundary: it is advisory, like <code>robots.txt</code>. Where it conflicts with an operator's or platform's explicit safety policy, that policy <strong>MUST</strong> win. Where it conflicts with a tool-specific file the agent already honours, the agent <strong>SHOULD</strong> prefer the more specific and more restrictive instruction.</p>

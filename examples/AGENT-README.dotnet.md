@@ -1,7 +1,8 @@
 ---
-agent_readme: 0.1
-project: MyCompany.MyService
-updated: 2026-01-01
+Agent-Readme: 0.1
+Name: MyCompany.MyService
+Updated: 2026-01-01
+Languages: csharp
 ---
 
 # AGENT-README

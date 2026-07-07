@@ -1,7 +1,7 @@
 ---
-agent_readme: 0.1
-project: "<your project name>"
-updated: 2026-01-01
+Agent-Readme: 0.1
+Name: <your project name>
+Updated: 2026-01-01
 ---
 
 # AGENT-README

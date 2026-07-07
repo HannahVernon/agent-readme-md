@@ -1,12 +1,11 @@
 ---
-agent_readme: 0.1
-project: agent-readme.md
-description: The website and reference for the AGENT-README.md convention.
-updated: 2026-07-06
-links:
-  home: /
-  spec: /spec/
-  templates: /examples/
+Agent-Readme: 0.1
+Name: agent-readme.md
+Description: The website and reference for the AGENT-README.md convention.
+Updated: 2026-07-07
+Tags: convention, ai-agents, markdown, specification
+Homepage: /
+Docs: /spec/
 ---
 
 # AGENT-README

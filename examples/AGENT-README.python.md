@@ -1,7 +1,8 @@
 ---
-agent_readme: 0.1
-project: my_python_package
-updated: 2026-01-01
+Agent-Readme: 0.1
+Name: my_python_package
+Updated: 2026-01-01
+Languages: python
 ---
 
 # AGENT-README
